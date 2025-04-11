@@ -11,14 +11,17 @@
         <div class="mb-3 row p-1">
             <label asp-for="Name" class="p-0"></label>
             <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="mb-3 row p-1">
             <label asp-for="Price" class="p-0"></label>
             <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
         </div>
         <div class="mb-3 row p-1">
             <label asp-for="Quantity" class="p-0"></label>
             <input asp-for="Quantity" class="form-control" />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
         </div>
         <div class="row">
             <div class="col-6 col-md-4">
@@ -31,8 +34,12 @@
                     Back to List
                 </a>
             </div>
-            
-
         </div>
     </div>
 </form>
+
+        @section Scripts{
+            @{
+                <partial name="_ValidationScriptsPartial" />
+            }
+        }
