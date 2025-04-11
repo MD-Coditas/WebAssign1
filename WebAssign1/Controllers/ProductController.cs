@@ -28,6 +28,7 @@ namespace WebAssign1.Controllers
             {
                 _db.Products.Add(obj);
                 _db.SaveChanges();
+                TempData["success"] = "Product added successfully";
                 return RedirectToAction("Index");
             }
             return View();
@@ -54,6 +55,7 @@ namespace WebAssign1.Controllers
             {
                 _db.Products.Update(obj);
                 _db.SaveChanges();
+                TempData["success"] = "Product updated successfully";
                 return RedirectToAction("Index");
             }
             return View();
@@ -80,6 +82,7 @@ namespace WebAssign1.Controllers
             {
                 _db.Products.Remove(del);
                 _db.SaveChanges();
+                TempData["success"] = "Product deleted successfully";
                 return RedirectToAction("Index");
             }
             return View();
