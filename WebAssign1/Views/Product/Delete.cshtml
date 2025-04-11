@@ -1,0 +1,36 @@
+﻿@model Product
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-1 p-0">
+            <h2 class="text-primary text-center">
+                Delete Product
+            </h2>
+            <hr />
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Name" class="p-0"></label>
+            <input asp-for="Name" disabled class="form-control" />
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Price" class="p-0"></label>
+            <input asp-for="Price" disabled class="form-control" />
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Quantity" class="p-0"></label>
+            <input asp-for="Quantity" disabled class="form-control" />
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-4">
+                <button type="submit" class="btn btn-danger form-control">
+                    <i class="bi bi-trash3-fill"> Delete</i>
+                </button>
+            </div>
+            <div class="col-6 col-md-4">
+                <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary form-control">
+                    Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+</form>

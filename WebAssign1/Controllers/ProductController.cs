@@ -58,7 +58,32 @@ namespace WebAssign1.Controllers
             }
             return View();
         }
-
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            //Product? productFromDb = _db.Products.Find(id);
+            Product? productFromDb = _db.Products.FirstOrDefault(a => a.Id == id);
+            if (productFromDb == null)
+            {
+                return NotFound();
+            }
+            return View(productFromDb);
+        }
+        [HttpPost]
+        public IActionResult Delete(Product obj)
+        {
+            var del = _db.Products.FirstOrDefault(a => a.Id == obj.Id);
+            if (del != null)
+            {
+                _db.Products.Remove(del);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
     }
 
 }
