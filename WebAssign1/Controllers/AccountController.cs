@@ -12,7 +12,6 @@ namespace WebAssign1.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly string adminEmail = "admin@example.com";
-        //private readonly string adminPassword = "admin123";
         public AccountController(ApplicationDbContext db)
         {
             _db = db;

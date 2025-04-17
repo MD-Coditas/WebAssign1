@@ -13,12 +13,23 @@ namespace WebAssign1.Controllers
         }
         public IActionResult Index()
         {
-            // Fetching all products from the database
             List<Product> objProductList = _db.Products.ToList();
-            return View(objProductList);
+
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                
+                if (User.IsInRole("Admin"))
+                {
+                    return View("AdminIndex", objProductList); // New admin view for product management
+                }
+            }
+
+            return View("UserIndex", objProductList); // New view for customers
         }
+
         public IActionResult Add()
         {
+            if (!User.IsInRole("Admin")) return Unauthorized();
             return View();
         }
         [HttpPost]
@@ -36,11 +47,12 @@ namespace WebAssign1.Controllers
 
         public IActionResult Edit(int? id)
         {
+            if (!User.IsInRole("Admin")) return Unauthorized();
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            //Product? productFromDb = _db.Products.Find(id);
+            
             Product? productFromDb = _db.Products.FirstOrDefault(a=> a.Id == id);
             if (productFromDb == null)
             {
@@ -62,6 +74,7 @@ namespace WebAssign1.Controllers
         }
         public IActionResult Delete(int? id)
         {
+            if (!User.IsInRole("Admin")) return Unauthorized();
             if (id == null || id == 0)
             {
                 return NotFound();

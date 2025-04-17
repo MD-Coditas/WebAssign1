@@ -32,7 +32,7 @@
 
                         <div class="mb-3">
                             <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
-                            <input asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number" />
+                            <input type="tel" oninput="this.value = this.value.replace(/[^0-9]/g, '')" asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number" />
                             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
 
