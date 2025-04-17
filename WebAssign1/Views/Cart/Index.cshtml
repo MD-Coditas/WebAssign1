@@ -1,0 +1,53 @@
+﻿@model List<WebAssign1.Models.CartItem>
+
+<h2>Your Cart</h2>
+
+<table class="table table-bordered border-dark">
+    <thead class="table-dark">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>
+                    <a asp-action="DecreaseQuantity" asp-route-id="@item.ProductId" class="me-2 text-danger fw-bold text-decoration-none">−</a>
+                    @item.Quantity
+                    <a asp-action="IncreaseQuantity" asp-route-id="@item.ProductId" class="ms-2 text-success fw-bold text-decoration-none">+</a>
+                </td>
+
+                <td>₹@item.Total</td>
+                <td>
+                    <form asp-action="RemoveFromCart" method="post">
+                        <input type="hidden" name="productId" value="@item.ProductId" />
+                        <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4 class="text-end me-3">Net Total: ₹@ViewBag.NetTotal</h4>
+
+@if (Model != null && Model.Any())
+{
+    <form method="post" asp-action="PlaceOrder">
+        <div class="text-end">
+            <button class="btn btn-success">Place Order</button>
+        </div>
+    </form>
+}
+else
+{
+    <div class="text-center mt-4">
+        <p>Your cart is empty.</p>
+        <button class="btn btn-secondary" disabled>Place Order</button>
+    </div>
+}

@@ -22,10 +22,19 @@ namespace WebAssign1.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(Customer customer)
         {
             if (ModelState.IsValid)
             {
+                var existingUser = await _db.Customers.FirstOrDefaultAsync(x => x.Email == customer.Email);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError("Email", "Email is already registered.");
+                    return View(customer);
+                }
+
+                customer.Password = BCrypt.Net.BCrypt.HashPassword(customer.Password);
                 _db.Customers.Add(customer);
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Login");
@@ -38,11 +47,11 @@ namespace WebAssign1.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string email, string password)
         {
-            var user = _db.Customers.FirstOrDefault(x => x.Email == email && x.Password == password);
-
-            if (user == null)
+            var user = _db.Customers.FirstOrDefault(x => x.Email == email);
+            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
                 ViewBag.Error = "Email not found or incorrect password.";
                 return View();
@@ -58,7 +67,13 @@ namespace WebAssign1.Controllers
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true, 
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
+            };
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
 
             if (user.Email == adminEmail)
                 return RedirectToAction("AdminDashboard", "Dashboard");
