@@ -1,7 +1,7 @@
 ﻿@using System.Security.Claims
 @{
-    var email = User.FindFirstValue(ClaimTypes.Email);
-    var isAuthenticated = User.Identity.IsAuthenticated;
+    var email = User.FindFirstValue(ClaimTypes.Email) ?? string.Empty;
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
     var isAdmin = email == "admin@example.com";
 }
 
@@ -68,7 +68,7 @@
                         @if (isAuthenticated)
                         {
                             <li class="nav-item d-flex align-items-center me-2 text-white">
-                                <i class="bi bi-person-circle me-1"></i> Hello, @User.Identity.Name!
+                                <i class="bi bi-person-circle me-1"></i> Hello, @User?.Identity?.Name!
                             </li>
                             <li class="nav-item">
                                 <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">

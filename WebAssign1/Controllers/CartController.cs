@@ -38,8 +38,8 @@ namespace WebAssign1.Controllers
                 cart.Add(new CartItem
                 {
                     ProductId = product.Id,
-                    Name = product.Name,
-                    Price = product.Price,
+                    Name = product?.Name ?? string.Empty,
+                    Price = product?.Price ?? 0,
                     Quantity = 1
                 });
             }
