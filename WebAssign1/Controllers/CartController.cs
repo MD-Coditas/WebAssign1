@@ -54,8 +54,22 @@ namespace WebAssign1.Controllers
 
             if (item != null)
             {
-                item.Quantity++;
-                HttpContext.Session.SetObjectAsJson(SessionKey, cart);
+                var product = _db.Products.FirstOrDefault(p => p.Id == id);
+                if (product == null)
+                {
+                    TempData["error"] = "Product not found.";
+                    return RedirectToAction("Index");
+                }
+
+                if (item.Quantity < product.Quantity)
+                {
+                    item.Quantity++;
+                    HttpContext.Session.SetObjectAsJson(SessionKey, cart);
+                }
+                else
+                {
+                    TempData["error"] = $"Cannot increase quantity. Only {product.Quantity} item(s) available in stock.";
+                }
             }
 
             return RedirectToAction("Index");
@@ -116,6 +130,21 @@ namespace WebAssign1.Controllers
             {
                 TempData["error"] = "User not found in database.";
                 return RedirectToAction("Index");
+            }
+
+            foreach (var item in cart)
+            {
+                var product = await _db.Products.FirstOrDefaultAsync(p => p.Id == item.ProductId);
+                if (product != null)
+                {
+                    if (product.Quantity < item.Quantity)
+                    {
+                        TempData["error"] = $"Not enough stock for {product.Name}.";
+                        return RedirectToAction("Index");
+                    }
+
+                    product.Quantity -= item.Quantity;
+                }
             }
 
             var order = new Order

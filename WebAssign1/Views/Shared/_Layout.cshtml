@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@{
+    var email = User.FindFirstValue(ClaimTypes.Email);
+    var isAuthenticated = User.Identity.IsAuthenticated;
+    var isAdmin = email == "admin@example.com";
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -22,32 +29,44 @@
 
                 <div class="collapse navbar-collapse justify-content-between" id="mainNavbar">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        @if (!User.Identity.IsAuthenticated)
+                        @if (!isAuthenticated)
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                         }
 
-                        @if (User.Identity.IsAuthenticated)
+                        @if (isAuthenticated)
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Product" asp-action="Index">Products</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Order" asp-action="MyOrders">My Orders</a>
-                            </li>
+                            @if (!isAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Order" asp-action="MyOrders">My Orders</a>
+                                </li>
+                            }
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Order" asp-action="AllOrders">Orders</a>
+                                </li>
+                            }
                         }
                     </ul>
 
                     <ul class="navbar-nav">
-                        @if (User.Identity.IsAuthenticated)
+                        @if (isAuthenticated && !isAdmin)
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Cart" asp-action="Index">
                                     <i class="bi bi-cart4"></i> Cart
                                 </a>
                             </li>
+                        }
+                        @if (isAuthenticated)
+                        {
                             <li class="nav-item d-flex align-items-center me-2 text-white">
                                 <i class="bi bi-person-circle me-1"></i> Hello, @User.Identity.Name!
                             </li>
@@ -57,19 +76,7 @@
                                 </form>
                             </li>
                         }
-                        @* else *@
-                        @* { *@
-                        @*     <li class="nav-item"> *@
-                        @*         <a class="btn btn-light btn-sm me-2" asp-controller="Account" asp-action="Login"> *@
-                        @*             <i class="bi bi-box-arrow-in-right"></i> Login *@
-                        @*         </a> *@
-                        @*     </li> *@
-                        @*     <li class="nav-item"> *@
-                        @*         <a class="btn btn-outline-light btn-sm" asp-controller="Account" asp-action="Register"> *@
-                        @*             <i class="bi bi-person-plus-fill"></i> Register *@
-                        @*         </a> *@
-                        @*     </li> *@
-                        @* } *@
+                        
                     </ul>
                 </div>
             </div>

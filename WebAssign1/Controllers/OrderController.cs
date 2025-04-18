@@ -29,6 +29,21 @@ namespace WebAssign1.Controllers
             return View(orders);
         }
 
+        public async Task<IActionResult> AllOrders()
+        {
+            if (!User.IsInRole("Admin"))
+                return Unauthorized();
+
+            var orders = await _db.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .ToListAsync();
+
+            return View(orders);
+        }
+
+
     }
 
 }
