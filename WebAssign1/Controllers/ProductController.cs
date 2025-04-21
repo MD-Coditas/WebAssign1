@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebAssign1.Data;
 using WebAssign1.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAssign1.Controllers
 {
@@ -26,7 +27,7 @@ namespace WebAssign1.Controllers
 
             return View("UserIndex", objProductList); // New view for customers
         }
-
+        [Authorize(Roles ="Admin")]
         public IActionResult Add()
         {
             if (!User.IsInRole("Admin")) return Unauthorized();
@@ -44,7 +45,7 @@ namespace WebAssign1.Controllers
             }
             return View();
         }
-
+        [Authorize(Roles ="Admin")]
         public IActionResult Edit(int? id)
         {
             if (!User.IsInRole("Admin")) return Unauthorized();
@@ -72,6 +73,7 @@ namespace WebAssign1.Controllers
             }
             return View();
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int? id)
         {
             if (!User.IsInRole("Admin")) return Unauthorized();

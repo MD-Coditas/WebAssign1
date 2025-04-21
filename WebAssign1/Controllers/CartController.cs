@@ -2,13 +2,15 @@
 using WebAssign1.Models;
 using WebAssign1.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace WebAssign1.Controllers
 {
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _db;
-        private const string SessionKey = "Cart";
+        private string SessionKey => $"Cart_{User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? HttpContext.Session.Id}";
+
 
         public CartController(ApplicationDbContext db)
         {

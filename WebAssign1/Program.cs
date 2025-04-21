@@ -17,7 +17,19 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/Account/Login";
     });
 builder.Services.AddAuthorization();
-builder.Services.AddSession();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".WebAssign1.Session";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
+
 
 
 
@@ -31,8 +43,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseSession();
 app.UseHttpsRedirection();
+app.UseSession();
 app.UseStaticFiles();
 
 app.UseRouting();
