@@ -16,5 +16,8 @@ namespace WebAssign1.Models
         [Required]
         [Range(1, 50, ErrorMessage ="Quantity should be between 1 and 50")]
         public int Quantity { get; set; }
+        [Required]
+        [Display(Name = "Image URL")]
+        public string? ImageUrl { get; set; }
     }
 }

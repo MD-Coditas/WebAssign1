@@ -21,11 +21,11 @@ namespace WebAssign1.Controllers
                 
                 if (User.IsInRole("Admin"))
                 {
-                    return View("AdminIndex", objProductList); // New admin view for product management
+                    return View("AdminIndex", objProductList);
                 }
             }
 
-            return View("UserIndex", objProductList); // New view for customers
+            return View("UserIndex", objProductList);
         }
         [Authorize(Roles ="Admin")]
         public IActionResult Add()
@@ -81,7 +81,7 @@ namespace WebAssign1.Controllers
             {
                 return NotFound();
             }
-            //Product? productFromDb = _db.Products.Find(id);
+            
             Product? productFromDb = _db.Products.FirstOrDefault(a => a.Id == id);
             if (productFromDb == null)
             {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAssign1.Data;
 
@@ -11,9 +12,11 @@ using WebAssign1.Data;
 namespace WebAssign1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250423051056_AddImageUrlToDb")]
+    partial class AddImageUrlToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,32 +139,6 @@ namespace WebAssign1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ImageUrl = "https://regalplus.com/cdn/shop/files/monacoyellow.jpg?v=1736527560",
-                            Name = "Monaco",
-                            Price = 10m,
-                            Quantity = 10
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ImageUrl = "https://5.imimg.com/data5/SELLER/Default/2021/5/RQ/IA/NE/34912835/bounce-choco.jpg",
-                            Name = "Bounce",
-                            Price = 20m,
-                            Quantity = 15
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ImageUrl = "https://m.media-amazon.com/images/I/61kBRuYl3vL._AC_UF1000,1000_QL80_.jpg",
-                            Name = "Good-Day",
-                            Price = 25m,
-                            Quantity = 20
-                        });
                 });
 
             modelBuilder.Entity("WebAssign1.Models.Order", b =>
