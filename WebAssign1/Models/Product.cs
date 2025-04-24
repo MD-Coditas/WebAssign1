@@ -14,7 +14,7 @@ namespace WebAssign1.Models
         [Range(1, 10000,ErrorMessage ="Price should be between 1 and 10000")]
         public decimal Price { get; set; }
         [Required]
-        [Range(1, 50, ErrorMessage ="Quantity should be between 1 and 50")]
+        [Range(1, 100, ErrorMessage ="Quantity should be between 1 and 100")]
         public int Quantity { get; set; }
         [Required]
         [Display(Name = "Image URL")]

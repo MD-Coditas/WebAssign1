@@ -7,6 +7,7 @@ namespace WebAssign1.Models
         public int Id { get; set; }
 
         [Required, MaxLength(40)]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Full Name must contain only letters and spaces.")]
         public string FullName { get; set; }
 
         [Required, EmailAddress]

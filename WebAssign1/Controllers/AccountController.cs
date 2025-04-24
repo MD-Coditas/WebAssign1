@@ -44,12 +44,36 @@ namespace WebAssign1.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            // Prevent the browser from caching this page
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            Response.Headers["Pragma"] = "no-cache";
+            Response.Headers["Expires"] = "0";
+
+            // If the user is already logged in
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                var userRole = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+                if (userRole == "Admin")
+                {
+                    return RedirectToAction("AdminIndex", "Product");
+                }
+                else
+                {
+                    return RedirectToAction("UserIndex", "Product");
+                }
+            }
+
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string email, string password)
         {
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            Response.Headers["Pragma"] = "no-cache";
+            Response.Headers["Expires"] = "0";
+
             var user = _db.Customers.FirstOrDefault(x => x.Email == email);
             if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
@@ -84,6 +108,12 @@ namespace WebAssign1.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
+
+            // Prevent back button from bringing back a cached view
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            Response.Headers["Pragma"] = "no-cache";
+            Response.Headers["Expires"] = "0";
+
             return RedirectToAction("Login");
         }
     }
