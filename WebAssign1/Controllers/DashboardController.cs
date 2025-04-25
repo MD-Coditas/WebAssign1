@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAssign1.Controllers
 {
+    [Authorize]
     public class DashboardController : Controller
     {
         [Authorize(Roles = "Admin")]

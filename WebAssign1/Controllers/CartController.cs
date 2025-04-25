@@ -47,7 +47,7 @@ namespace WebAssign1.Controllers
             }
 
             HttpContext.Session.SetObjectAsJson(SessionKey, cart);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Product");
         }
         public IActionResult IncreaseQuantity(int id)
         {

@@ -56,11 +56,11 @@ namespace WebAssign1.Controllers
 
                 if (userRole == "Admin")
                 {
-                    return RedirectToAction("AdminIndex", "Product");
+                    return RedirectToAction("AdminDashboard", "Dashboard");
                 }
                 else
                 {
-                    return RedirectToAction("UserIndex", "Product");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -104,7 +104,7 @@ namespace WebAssign1.Controllers
             else
                 return RedirectToAction("UserDashboard", "Dashboard");
         }
-
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
@@ -116,5 +116,6 @@ namespace WebAssign1.Controllers
 
             return RedirectToAction("Login");
         }
+
     }
 }
