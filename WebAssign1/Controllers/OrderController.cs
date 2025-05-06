@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using WebAssign1.Data;
+using WebAssign1.Filters;
 
 namespace WebAssign1.Controllers
 {
+    [Authorize]
+    [NoCache]
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _db;

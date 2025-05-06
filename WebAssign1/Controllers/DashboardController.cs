@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebAssign1.Filters;
 
 namespace WebAssign1.Controllers
 {
     [Authorize]
+    [NoCache]
     public class DashboardController : Controller
     {
         [Authorize(Roles = "Admin")]

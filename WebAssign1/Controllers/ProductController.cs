@@ -2,10 +2,12 @@
 using WebAssign1.Data;
 using WebAssign1.Models;
 using Microsoft.AspNetCore.Authorization;
+using WebAssign1.Filters;
 
 namespace WebAssign1.Controllers
 {
     [Authorize]
+    [NoCache]
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _db;

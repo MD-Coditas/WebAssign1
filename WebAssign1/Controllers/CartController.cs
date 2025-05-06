@@ -3,9 +3,13 @@ using WebAssign1.Models;
 using WebAssign1.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using WebAssign1.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAssign1.Controllers
 {
+    [Authorize]
+    [NoCache]
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _db;
